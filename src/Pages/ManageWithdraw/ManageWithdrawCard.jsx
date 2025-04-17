@@ -1,7 +1,9 @@
 import { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { Trash2 } from "lucide-react"; // ✅ এই লাইনে Trash2 Icon import করতে ভুললে error দিবে
+import { Trash2 } from "lucide-react";
+import { FaCopy } from "react-icons/fa";
+import { FiCopy } from "react-icons/fi";
 
 const ManageWithdrawCard = ({ withdraw, refetch }) => {
     const axiosSecure = useAxiosSecure();
@@ -19,7 +21,6 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
 
     const [currentStatus, setCurrentStatus] = useState(status);
 
-    // 🔄 স্ট্যাটাস আপডেট ফাংশন
     const handleLocalStatusChange = async (newStatus) => {
         setCurrentStatus(newStatus);
         try {
@@ -35,7 +36,6 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
         }
     };
 
-    // ❌ ডিলিট হ্যান্ডলার (Demo PopUp)
     const handleDelete = () => {
         Swal.fire({
             title: 'আপনি কি নিশ্চিত?',
@@ -62,7 +62,6 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
         });
     };
 
-    // 📅 তারিখ ফরম্যাটিং
     const date = new Date(createdAt).toLocaleString("bn-BD", {
         dateStyle: "medium",
         timeStyle: "short",
@@ -70,22 +69,32 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
     });
 
     return (
-        <div className="flex justify-between items-center bg-white  shadow p-4 mb-3">
-            {/* Wallet Icon Part */}
+        <div className="flex justify-between items-center bg-white shadow p-4 mb-3">
             <div className="flex items-center gap-3">
                 <div className="w-10 h-10 flex items-center justify-center bg-purple-100 text-purple-600 rounded-full font-bold overflow-hidden">
                     <img src={image} alt="Wallet" className="w-full h-full object-cover" />
                 </div>
                 <div>
                     <h3 className="font-semibold text-gray-800">{customer?.email}</h3>
-                    <p className="text-xs text-gray-500">{walletNumber}</p>
+                    <p className="text-xs text-gray-500">
+                        যে নাম্বারে টাকা গ্রহণ করবে : 
+                        <span className="text-green-500 ml-1">{walletNumber}</span>
+                        <button 
+                            onClick={() => {
+                                navigator.clipboard.writeText(walletNumber);
+                                Swal.fire('কপি হয়েছে!', `Wallet নাম্বার কপি হয়েছে: ${walletNumber}`, 'success');
+                            }}
+                            className="ml-2 px-2 py-0.5 text-xs  rounded transition"
+                        >
+                            <FiCopy />
+                        </button>
+                    </p>
                     <p className="text-xs text-gray-400">ID: {idNumber}</p>
                     <p className="text-xs text-gray-600">Code: {withdrawCode}</p>
                     <p className="text-xs text-gray-500">{date}</p>
                 </div>
             </div>
 
-            {/* Amount & Status Part */}
             <div className="text-right space-y-1">
                 <p className="text-base font-bold text-gray-800">{amount}৳</p>
 
@@ -97,7 +106,6 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
                     <span className="text-yellow-600 bg-yellow-100 text-xs px-2 py-1 rounded-full">{currentStatus}</span>
                 )}
 
-                {/* স্ট্যাটাস সিলেক্ট বক্স */}
                 <div>
                     <select
                         className={`text-xs mt-2 px-2 py-1 rounded outline-none border
@@ -120,7 +128,6 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
                     </select>
                 </div>
 
-                {/* ডিলিট বাটন */}
                 {status !== "সফল" && (
                     <button
                         onClick={handleDelete}

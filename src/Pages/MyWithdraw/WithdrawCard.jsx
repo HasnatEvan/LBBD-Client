@@ -1,13 +1,28 @@
 import React from 'react';
 
-const WithdrawCard = ({ withdraw  }) => {
-    const { customer, idNumber, amount, walletNumber, withdrawCode, status, createdAt, image,platform } = withdraw ;
+const WithdrawCard = ({ withdraw }) => {
+    const { customer, idNumber, amount, walletNumber, withdrawCode, status, createdAt, image, platform } = withdraw;
 
-    const date = new Date(createdAt).toLocaleString("bn-BD", {
-        dateStyle: "medium",
-        timeStyle: "short",
-        timeZone: "Asia/Dhaka"
+    // 🇧🇩 বাংলাদেশ টাইম ফরম্যাট (BN) - বাংলাদেশ সময় (GMT+6)
+   
+  // 🇧🇩 বাংলাদেশ টাইম ফরম্যাট (BN) - বাংলাদেশ সময় (GMT+6)
+  const formatBDTime = (isoTime) => {
+    const date = new Date(isoTime);
+
+ 
+
+    return date.toLocaleString('bn-BD', {
+        timeZone: 'Asia/Dhaka',
+        hour12: true,
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
     });
+  };
+
+  const formattedTime = formatBDTime(createdAt);
 
     return (
         <div className="flex justify-between items-center bg-white shadow p-4 mb-3">
@@ -18,11 +33,11 @@ const WithdrawCard = ({ withdraw  }) => {
                 </div>
                 <div>
                     <h3 className="font-semibold text-gray-800">{customer?.email}</h3>
-                    <p className="text-xs text-gray-500">Plat From : <span className="bg-green-500 text-white rounded-xl px-2">{platform}</span></p>
+                    <p className="text-xs text-gray-500">Plat From: <span className="bg-green-500 text-white rounded-xl px-2">{platform}</span></p>
                     <p className="text-xs text-gray-500">{walletNumber}</p>
                     <p className="text-xs text-gray-400">ID: {idNumber}</p>
                     <p className="text-xs text-gray-600">Code: {withdrawCode}</p>
-                    <p className="text-xs text-gray-500">{date}</p>
+                    <p className="text-xs text-gray-500">{formattedTime}</p>  {/* Display formatted time */}
                 </div>
             </div>
 

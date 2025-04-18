@@ -37,12 +37,12 @@ const Terms = () => {
     <>
       যোগাযোগ করুনঃ{" "}
       <a
-        href="https://t.me/nextsation247"
+        href="https://t.me/firstdp"
         className="text-blue-600 hover:underline"
         target="_blank"
         rel="noopener noreferrer"
       >
-        t.me/nextsation247
+        https://t.me/firstdp
       </a>
     </>,
   ];

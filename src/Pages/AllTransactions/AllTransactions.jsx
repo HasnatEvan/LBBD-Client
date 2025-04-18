@@ -24,6 +24,25 @@ const AllTransactions = () => {
         fetchTransactions();
     }, []);
 
+    // ✅ বাংলাদেশ সময় দেখানোর জন্য ঠিক করা
+    const formatBDTime = (isoTime) => {
+        const date = new Date(isoTime);
+    
+        // ⬇️ ১ দিন (২৪ ঘণ্টা) কমানো
+    
+    
+        return date.toLocaleString('bn-BD', {
+            timeZone: 'Asia/Dhaka',
+            hour12: true,
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+        });
+    };
+    
+
     if (loading) return (
         <div className="text-center text-base md:text-lg font-medium">
             <MdSync className="animate-spin inline-block mr-2 text-2xl" />
@@ -87,14 +106,7 @@ const AllTransactions = () => {
                                         {tx.idNumber?.slice(0, 7)}***
                                     </p>
                                     <p className="text-[10px] text-gray-500">
-                                        {new Date(tx.createdAt).toLocaleString('bn-BD', {
-                                            timeZone: 'Asia/Dhaka',
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        })}
+                                        {formatBDTime(tx.createdAt)}
                                     </p>
                                 </div>
                             </div>

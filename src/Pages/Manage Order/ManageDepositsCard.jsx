@@ -1,17 +1,33 @@
+import React, { useState } from "react";
 import Swal from "sweetalert2";
-import { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { Trash2 } from "lucide-react"; // Optional delete icon
 import { FiCopy } from "react-icons/fi"; // Copy icon
 
 const ManageDepositsCard = ({ deposit, refetch }) => {
-  const { idNumber, image, amount, trxId, status, createdAt, wallet, customer, sendNumber, _id,platform } = deposit;
+  const { idNumber, image, amount, trxId, status, createdAt, wallet, customer, sendNumber, _id, platform } = deposit;
 
   const [currentStatus, setCurrentStatus] = useState(status);
   const axiosSecure = useAxiosSecure();
 
-  // বাংলাদেশ টাইম ফরম্যাট
-  const bdTime = new Date(createdAt).toLocaleString("bn-BD", { timeZone: "Asia/Dhaka" });
+  // 🇧🇩 বাংলাদেশ টাইম ফরম্যাট (BN) - বাংলাদেশ সময় (GMT+6)
+  const formatBDTime = (isoTime) => {
+    const date = new Date(isoTime);
+
+ 
+
+    return date.toLocaleString('bn-BD', {
+        timeZone: 'Asia/Dhaka',
+        hour12: true,
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    });
+  };
+
+  const formattedTime = formatBDTime(createdAt);
 
   // ✅ কপি হ্যান্ডলার
   const handleCopy = (text) => {
@@ -84,7 +100,7 @@ const ManageDepositsCard = ({ deposit, refetch }) => {
           <p className="text-xs text-gray-500">TrxId: <span className="text-red-500">{trxId}</span></p>
           <p className="text-xs text-gray-500">যে নাম্বারে টাকা পাঠিয়েছে: {sendNumber}</p>
           <p className="text-xs text-gray-500">যে নাম্বার থেকে টাকা পাঠিয়েছে: {wallet}</p>
-          <p className="text-xs text-gray-500">{bdTime}</p>
+          <p className="text-xs text-gray-500">{formattedTime}</p> {/* Display formatted time */}
         </div>
       </div>
 

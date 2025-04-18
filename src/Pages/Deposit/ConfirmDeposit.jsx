@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // navigate import
+import { useParams, useNavigate } from "react-router-dom";
 import { FaWallet, FaIdCard, FaMoneyBillWave, FaExchangeAlt } from "react-icons/fa";
 import { MdAttachMoney, MdSync } from "react-icons/md";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import axios from "axios";
 import Swal from 'sweetalert2';
+import meletImage from '../../assets/mel.jpg';
+import onexImage from '../../assets/1x.jpg';
 
 const ConfirmDeposit = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const { id } = useParams();
-    const navigate = useNavigate(); // navigate instance
+    const navigate = useNavigate();
 
     const [number, setNumber] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -21,6 +23,7 @@ const ConfirmDeposit = () => {
     const [amount, setAmount] = useState('');
     const [wallet, setWallet] = useState('');
     const [trxId, setTrxId] = useState('');
+    const [platform, setPlatform] = useState('');
 
     useEffect(() => {
         const fetchNumberData = async () => {
@@ -33,18 +36,16 @@ const ConfirmDeposit = () => {
                 setLoading(false);
             }
         };
-
         fetchNumberData();
     }, [id]);
 
     if (loading) return <div className="text-center text-base md:text-lg font-medium">
-        <MdSync className="animate-spin inline-block mr-2 text-2xl" /> {/* Spinning icon */}
-        লোড হচ্ছে...
-    </div>
+        <MdSync className="animate-spin inline-block mr-2 text-2xl" /> লোড হচ্ছে...
+    </div>;
+
     if (!number) return <p className="text-center mt-10 text-red-500">ডেটা পাওয়া যায়নি</p>;
 
     const { numberName, image, number: sendNumber, admin } = number;
-    console.log(admin)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,7 +66,8 @@ const ConfirmDeposit = () => {
                 numberName,
                 type: "ডিপোজিট",
                 status: "বিচারাধীন",
-                admin: admin?.email
+                admin: admin?.email,
+                platform
             };
 
             try {
@@ -76,13 +78,15 @@ const ConfirmDeposit = () => {
                     icon: 'success',
                     confirmButtonText: 'ঠিক আছে'
                 }).then(() => {
-                    navigate('/my-deposit'); // submit success হলে redirect
+                    navigate('/my-deposit');
                 });
 
                 setIdNumber('');
                 setAmount('');
                 setWallet('');
                 setTrxId('');
+                setPlatform('');
+
             } catch (err) {
                 Swal.fire({
                     title: 'ত্রুটি!',
@@ -111,19 +115,21 @@ const ConfirmDeposit = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
+
                     <div>
                         <label className="block text-sm mb-1 flex items-center gap-1">
                             <FaIdCard className="text-purple-600" /> ID Number
                         </label>
                         <input
-                            type="text"
+                            type="number"
                             value={idNumber}
-                            placeholder="অ্যাকাউন্ট নাম্বার"
+                            placeholder="গেম অ্যাকাউন্ট নাম্বার"
                             onChange={(e) => setIdNumber(e.target.value)}
                             required
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-400"
                         />
                     </div>
+
                     <div>
                         <label className="block text-sm mb-1 flex items-center gap-1">
                             <MdAttachMoney className="text-green-600" /> Amount
@@ -137,12 +143,13 @@ const ConfirmDeposit = () => {
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-400"
                         />
                     </div>
+
                     <div>
                         <label className="block text-sm mb-1 flex items-center gap-1">
                             <FaWallet className="text-blue-600" /> Wallet Number
                         </label>
                         <input
-                            type="text"
+                            type="number"
                             value={wallet}
                             onChange={(e) => setWallet(e.target.value)}
                             required
@@ -150,6 +157,7 @@ const ConfirmDeposit = () => {
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-400"
                         />
                     </div>
+
                     <div>
                         <label className="block text-sm mb-1 flex items-center gap-1">
                             <FaExchangeAlt className="text-yellow-600" /> Transaction ID
@@ -164,11 +172,40 @@ const ConfirmDeposit = () => {
                         />
                     </div>
 
+                    {/* প্ল্যাটফর্ম সিলেক্ট - ছবিসহ */}
+                    <div>
+                        <label className="block text-sm mb-1 flex items-center gap-1">
+                            <FaMoneyBillWave className="text-pink-600" /> Platform
+                        </label>
+                        <div className="relative">
+                            <select
+                                value={platform}
+                                onChange={(e) => setPlatform(e.target.value)}
+                                required
+                                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-400 appearance-none"
+                            >
+                                <option value="">প্ল্যাটফর্ম নির্বাচন করুন</option>
+                                <option value="1x Bet">1x Bet</option>
+                                <option value="Melbet">Melbet</option>
+                            </select>
+
+                            {platform && (
+                                <div className="flex justify-center mt-3">
+                                    {platform === '1x Bet' && (
+                                        <img src={onexImage} alt="1x Bet" className="h-12 w-12 rounded-full object-cover" />
+                                    )}
+                                    {platform === 'Melbet' && (
+                                        <img src={meletImage} alt="Melbet" className="h-12 w-12 rounded-full object-cover" />
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`w-full py-2 rounded text-white flex justify-center items-center ${isSubmitting ? "bg-gray-500 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
-                            }`}
+                        className={`w-full py-2 rounded text-white flex justify-center items-center ${isSubmitting ? "bg-gray-500 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"}`}
                     >
                         {isSubmitting ? (
                             <span className="loading loading-dots loading-xl"></span>

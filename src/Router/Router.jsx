@@ -21,6 +21,7 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import AllTransactions from "../Pages/AllTransactions/AllTransactions";
 import UpdateWithdraw from "../Pages/UpdateWithdraw/UpdateWithdraw";
+import Terms from "../Pages/Terms/Terms";
 
 export const router = createBrowserRouter([
     {
@@ -103,7 +104,10 @@ export const router = createBrowserRouter([
             {
                 path: '/all-transactions',
                 element: <AllTransactions />
-            }
+            },
+            {
+                path: '/terms',
+                element: <Terms></Terms>          }
         ]
     }
 ]);

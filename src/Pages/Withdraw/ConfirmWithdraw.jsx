@@ -28,12 +28,14 @@ const ConfirmWithdraw = () => {
         fetchNumberData();
     }, [id]);
 
-    if (!number) return <div className="text-center text-base md:text-lg font-medium">
-                    <MdSync className="animate-spin inline-block mr-2 text-2xl" /> {/* Spinning icon */}
-                    লোড হচ্ছে...
-                </div>
+    if (!number) return (
+        <div className="text-center text-base md:text-lg font-medium">
+            <MdSync className="animate-spin inline-block mr-2 text-2xl" />
+            লোড হচ্ছে...
+        </div>
+    );
 
-    const { withdrawImage, numberName, image,admin } = number;
+    const { withdrawImage, numberName, image, admin } = number;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -43,6 +45,7 @@ const ConfirmWithdraw = () => {
         const amount = form.amount.value;
         const walletNumber = form.walletNumber.value;
         const withdrawCode = form.withdrawCode.value;
+        const platform = form.platform.value; // select option এর value
 
         const withdrawData = {
             customer: {
@@ -55,10 +58,11 @@ const ConfirmWithdraw = () => {
             amount,
             walletNumber,
             withdrawCode,
+            platform,  // নতুন ফিল্ড
             type: "উইথড্র",
             status: "বিচারাধীন",
             image,
-            admin:admin?.email
+            admin: admin?.email
         };
 
         setLoading(true);
@@ -128,9 +132,10 @@ const ConfirmWithdraw = () => {
                         />
                     </div>
 
+
                     <div>
                         <label className="flex items-center gap-2 text-gray-700">
-                            <MdSmartphone className="text-sm" /> Wallet Number(যে নাম্বারে টাকা গ্রহণ করবেন )
+                            <MdSmartphone className="text-sm" /> Wallet Number (যে নাম্বারে টাকা গ্রহণ করবেন)
                         </label>
                         <input
                             type="number"
@@ -143,15 +148,29 @@ const ConfirmWithdraw = () => {
 
                     <div>
                         <label className="flex items-center gap-2 text-gray-700">
-                            <MdReceiptLong className="text-xl" /> Withdraw Code
+                            <MdReceiptLong className="text-xl" /> Withdraw Get Code
                         </label>
                         <input
                             type="text"
                             name="withdrawCode"
-                            placeholder="উইথড্র কোড দিন"
+                            placeholder="উইথড্র গেট কোড দিন"
                             className="w-full mt-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-green-500"
                             required
                         />
+                    </div>
+                    <div>
+                        <label className="flex items-center gap-2 text-gray-700">
+                            <MdSmartphone className="text-sm" /> Platform নির্বাচন করুন
+                        </label>
+                        <select
+                            name="platform"
+                            className="w-full mt-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-green-500"
+                            required
+                        >
+                            <option value="">-- সিলেক্ট করুন --</option>
+                            <option value="1XBET">1XBET</option>
+                            <option value="Melbet">Melbet</option>
+                        </select>
                     </div>
 
                     <button

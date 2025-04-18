@@ -11,7 +11,7 @@ const AddWithdrawsCard = ({ addWithdraw }) => {
                 </div>
                 <div className="flex-1">
                     <h2 className="text-lg font-semibold">{numberName}</h2>
-                    <p className="text-sm text-gray-600">সর্বনিম্ন: 200.00৳</p>
+                    <p className="text-sm text-gray-600">সর্বনিম্ন: 300.00৳</p>
                     <p className="text-sm text-gray-600">সার্ভিস চার্জ: 0.00 %</p>
                 </div>
             </div>

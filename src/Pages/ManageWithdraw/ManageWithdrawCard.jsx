@@ -2,7 +2,6 @@ import { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Trash2 } from "lucide-react";
-import { FaCopy } from "react-icons/fa";
 import { FiCopy } from "react-icons/fi";
 
 const ManageWithdrawCard = ({ withdraw, refetch }) => {
@@ -16,7 +15,8 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
         withdrawCode,
         status,
         createdAt,
-        image
+        image,
+        platform
     } = withdraw;
 
     const [currentStatus, setCurrentStatus] = useState(status);
@@ -77,6 +77,9 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
                 <div>
                     <h3 className="font-semibold text-gray-800">{customer?.email}</h3>
                     <p className="text-xs text-gray-500">
+                        Plat Form : <span className="bg-green-500 text-white rounded-xl px-2">{platform}</span>
+                    </p>
+                    <p className="text-xs text-gray-500">
                         যে নাম্বারে টাকা গ্রহণ করবে : 
                         <span className="text-green-500 ml-1">{walletNumber}</span>
                         <button 
@@ -84,7 +87,7 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
                                 navigator.clipboard.writeText(walletNumber);
                                 Swal.fire('কপি হয়েছে!', `Wallet নাম্বার কপি হয়েছে: ${walletNumber}`, 'success');
                             }}
-                            className="ml-2 px-2 py-0.5 text-xs  rounded transition"
+                            className="ml-2 px-2 py-0.5 text-xs rounded transition"
                         >
                             <FiCopy />
                         </button>
@@ -133,7 +136,7 @@ const ManageWithdrawCard = ({ withdraw, refetch }) => {
                         onClick={handleDelete}
                         className="text-xs mt-2 px-2 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 transition"
                     >
-                        <Trash2 size={14} className="inline-block mr-1" /> ডিলিট করুন
+                        <Trash2 size={14} className="inline-block mr-1" /> ডিলিট
                     </button>
                 )}
             </div>

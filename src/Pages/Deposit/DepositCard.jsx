@@ -32,7 +32,7 @@ const DepositCard = ({ number }) => {
                 />
                 <div className="text-left">
                     <h2 className="text-base sm:text-lg md:text-xl font-semibold">{numberName}</h2>
-                    <p className="text-gray-600 text-sm sm:text-base">সর্বনিম্নঃ 60.00 ৳</p>
+                    <p className="text-gray-600 text-sm sm:text-base">সর্বনিম্নঃ 50.00 ৳</p>
                     <p className="text-gray-600 text-sm sm:text-base">সার্ভিস চার্জঃ 0.00 %</p>
                 </div>
             </div>

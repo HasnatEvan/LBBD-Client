@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WithdrawCard = ({ withdraw  }) => {
-    const { customer, idNumber, amount, walletNumber, withdrawCode, status, createdAt, image } = withdraw ;
+    const { customer, idNumber, amount, walletNumber, withdrawCode, status, createdAt, image,platform } = withdraw ;
 
     const date = new Date(createdAt).toLocaleString("bn-BD", {
         dateStyle: "medium",
@@ -18,6 +18,7 @@ const WithdrawCard = ({ withdraw  }) => {
                 </div>
                 <div>
                     <h3 className="font-semibold text-gray-800">{customer?.email}</h3>
+                    <p className="text-xs text-gray-500">Plat From : <span className="bg-green-500 text-white rounded-xl px-2">{platform}</span></p>
                     <p className="text-xs text-gray-500">{walletNumber}</p>
                     <p className="text-xs text-gray-400">ID: {idNumber}</p>
                     <p className="text-xs text-gray-600">Code: {withdrawCode}</p>

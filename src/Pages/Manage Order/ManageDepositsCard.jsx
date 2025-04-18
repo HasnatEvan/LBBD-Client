@@ -5,7 +5,7 @@ import { Trash2 } from "lucide-react"; // Optional delete icon
 import { FiCopy } from "react-icons/fi"; // Copy icon
 
 const ManageDepositsCard = ({ deposit, refetch }) => {
-  const { idNumber, image, amount, trxId, status, createdAt, wallet, customer, sendNumber, _id } = deposit;
+  const { idNumber, image, amount, trxId, status, createdAt, wallet, customer, sendNumber, _id,platform } = deposit;
 
   const [currentStatus, setCurrentStatus] = useState(status);
   const axiosSecure = useAxiosSecure();
@@ -69,7 +69,7 @@ const ManageDepositsCard = ({ deposit, refetch }) => {
           <p className="text-xs text-gray-500">
             <span className="font-bold">Customer:</span> {customer?.email}
           </p>
-
+          <p className="text-xs text-gray-500">Plat From : <span className="bg-green-500 text-white rounded-xl px-2">{platform}</span></p>
           {/* 🧾 Id এবং কপি বাটন */}
           <p className="text-xs text-gray-500 flex items-center gap-1">
             <span className="font-bold">Id:</span> <span className="text-green-500">{idNumber}</span>
@@ -81,7 +81,7 @@ const ManageDepositsCard = ({ deposit, refetch }) => {
             </button>
           </p>
 
-          <p className="text-xs text-red-500">TrxId: {trxId}</p>
+          <p className="text-xs text-gray-500">TrxId: <span className="text-red-500">{trxId}</span></p>
           <p className="text-xs text-gray-500">যে নাম্বারে টাকা পাঠিয়েছে: {sendNumber}</p>
           <p className="text-xs text-gray-500">যে নাম্বার থেকে টাকা পাঠিয়েছে: {wallet}</p>
           <p className="text-xs text-gray-500">{bdTime}</p>
@@ -127,7 +127,7 @@ const ManageDepositsCard = ({ deposit, refetch }) => {
             onClick={handleDelete}
             className="text-xs mt-2 px-2 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 transition"
           >
-            <Trash2 size={14} className="inline-block mr-1" /> ডিলিট করুন
+            <Trash2 size={14} className="inline-block mr-1" /> ডিলিট 
           </button>
         )}
       </div>

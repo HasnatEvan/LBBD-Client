@@ -1,5 +1,5 @@
 const MyTransactionCard = ({ deposit }) => {
-  const { image, idNumber, trxId, status, createdAt, amount } = deposit;
+  const { image, idNumber, trxId, status, createdAt, amount,platform } = deposit;
 
   // 🇧🇩 বাংলাদেশ টাইম ফরম্যাট (BN)
   const bdTime = new Date(createdAt).toLocaleString("bn-BD", {
@@ -31,7 +31,8 @@ const MyTransactionCard = ({ deposit }) => {
               <div>
                   <p className="font-semibold text-gray-800">{idNumber}</p>
                   <p className="text-xs text-gray-500">{bdTime}</p>
-                  <p className="text-xs text-red-500">TrxId: {trxId}</p>
+                  <p className="text-xs text-gray-500">TrxId: <span className="text-red-500">{trxId}</span></p>
+                  <p className="text-xs text-gray-500">Plat From : <span className="bg-green-500 text-white rounded-xl px-2 ">{platform}</span></p>
               </div>
           </div>
           <div className="flex flex-col items-end">
